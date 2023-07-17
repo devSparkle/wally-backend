@@ -44,6 +44,7 @@ jobs:
             type=sha
       
       - run: sed -i '/^USER 1000/i RUN mkdir packages' ./wally/wally-registry-backend/Dockerfile
+      - run: sed -i 's;AuthMode::GithubOAuth => Outcome::Success(ReadAccess::Public),;AuthMode::GithubOAuth => verify_github_token(request).await,;g' ./wally/wally-registry-backend/src/auth.rs
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
