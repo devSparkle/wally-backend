@@ -43,7 +43,7 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
       
-      - run: sed -i '/^USER 1000/i RUN mkdir packages' ./wally/wally-registry-backend/Dockerfile
+      - run: sed -i '/^USER 1000/i RUN mkdir /app/packages' ./wally/wally-registry-backend/Dockerfile
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
