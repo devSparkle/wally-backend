@@ -43,12 +43,11 @@ jobs:
             type=semver,pattern={{major}}
             type=sha
       
-      - run: "mv ./wally/wally-registry-backend/Dockerfile ./wally/Dockerfile"
-      
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
         with:
           context: ./wally
+          file: ./wally/wally-registry-backend/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
