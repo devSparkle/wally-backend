@@ -48,6 +48,9 @@ jobs:
             type=sha
       
       - run: sed -i '/^USER 1000/a RUN mkdir /app/packages' ./wally/wally-registry-backend/Dockerfile
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
       
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
@@ -57,5 +60,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: |
+            type=gha,scope=runner
+            type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          cache-to: |
+            type=gha,mode=max,scope=runner
+            type=inline
